@@ -3,36 +3,51 @@ import greenfoot.Greenfoot;
 
 public class Enemy extends Actor {
 
-    //Atributos
+    // Atributos
     public int dano;
-    public int velocidade ;
+    public int velocidade;
     public int direcao;
-    public String imagem;
 
-    //Construtor
-    public Enemy(){}
+    // Construtores
+    public Enemy() {
+        definirDirecaoInicial();
+    }
+
     public Enemy(int dano, int velocidade, String imagem) {
-
-        int numero = Greenfoot.getRandomNumber(10);
-        if (numero < 5)
-            this.direcao = +1;
-        else
-            this.direcao = -1;
-
         this.dano = dano;
         this.velocidade = velocidade;
+        definirDirecaoInicial();
         setImage(imagem);
     }
 
     public void act() {
         movimentar();
+        atacar();
     }
 
-    public void  movimentar(){
+    public void movimentar() {
         setLocation(getX() + (velocidade * direcao), getY());
-        if (getX() < 10 || getX() > 1190)
+
+        // Inverte a direção ao encostar nos limites da tela
+        if (getX() <= 10 || getX() >= 1190) {
             direcao = direcao * -1;
         }
     }
 
+    public void definirDirecaoInicial() {
+        // Retorna 0 para esquerda (-1) e 1 para direita (+1)
+        if (Greenfoot.getRandomNumber(2) == 0) {
+            this.direcao = 1;
+        } else {
+            this.direcao = -1;
+        }
+    }
 
+    public void atacar(){
+
+        if(isTouching(Player.class)){
+            Player playerFind = (Player) getOneIntersectingObject(Player.class);
+            playerFind.sofreDano(this.dano);
+        }
+    }
+}
