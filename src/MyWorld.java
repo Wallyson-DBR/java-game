@@ -1,3 +1,4 @@
+import greenfoot.Greenfoot;
 import greenfoot.World;
 
 import java.util.Random;
@@ -12,12 +13,6 @@ public class MyWorld extends World {
     Enemy monstro1;
     Enemy monstro2;
 
-    Coin coin1;
-    Coin coin2;
-    Coin coin3;
-    Coin coin4;
-    Coin coin5;
-
     //Metodo construtor
     public MyWorld(){
         super(1200,700,1);
@@ -26,25 +21,44 @@ public class MyWorld extends World {
         player1 = new Player(3,5,100);
         addObject(player1, 600, 350);
 
-        monstro1 = new Enemy(1, 3, "imagens/inimigos/Monstro/Monstro_baixo_0.png");
-        addObject(monstro1, 800, rd.nextInt(700));
-        monstro2 = new Enemy(1, 3, "imagens/inimigos/Monstro/Monstro_baixo_0.png");
-        addObject(monstro2, 200, rd.nextInt(700));
+        Monster monster1 = new Monster(1, 3);
+        addObject(monster1, 800, rd.nextInt(700));
+        Monster monster2 = new Monster(1, 3);
+        addObject(monster2, 200, rd.nextInt(700));
 
+        Ghost ghost1 = new Ghost(1, 3);
+        addObject(ghost1, 200, rd.nextInt(700));
 
-        coin1 = new Coin(1, 10, 1000);
-        coin1.spawn(this);
-        coin2 = new Coin(1,  10, 1000);
-        coin2.spawn(this);
-        coin3= new Coin(1,  10, 1000);
-        coin3.spawn(this);
-        coin4 = new Coin(1,  10, 1000);
-        coin4.spawn(this);
-        coin5 = new Coin(1, 10, 1000);
-        coin5.spawn(this);
+        for (int i = 0; i < 15; i++) {
+            Coin coin1 = new Coin(10, 1000);
+            coin1.spawn(this);
+        }
+    }
+
+    //Metodo de Classe
+
+    public void act() {
+
+        mostarPontuacao();
+        mostarVida();
+        gerarMoeda();
 
     }
 
+    public void mostarPontuacao(){
+        showText("Pontos: " + player1.getPontos(), 60, 20);
+    }
 
-    //Metodo de Classe
+    public void mostarVida(){
+        showText("Vidas: " + player1.getVida(), 1150, 20);
+    }
+
+    public void gerarMoeda(){
+        int numRdm = Greenfoot.getRandomNumber(1000);
+        if (numRdm <= 10){
+            Coin coin1 = new Coin(10, 1000);
+            coin1.spawn(this);
+        }
+    }
+
 }

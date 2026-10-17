@@ -4,12 +4,13 @@ import greenfoot.Greenfoot;
 public class Player extends Actor {
 
     //Atributos
-    public int vida;
-    public int velocidade;
-    public int estamina;
-    public int pontos;
-    boolean isDano = false;
-    int tempoDano = 100;
+    private int vida;
+    private int velocidade;
+    private int estamina;
+    private int pontos;
+
+    private boolean sofrendoDano = false;
+    private int tempoDano = 50;
 
     private int contadorFrames = 0;
     private int frameAtual = 1;
@@ -17,8 +18,7 @@ public class Player extends Actor {
     private String ultimaDirecao = "baixo";
 
     //Construtor
-    public Player() {
-    }
+    public Player() {}
 
     public Player(int vida, int velocidade, int estamina) {
         this.vida = vida;
@@ -28,14 +28,34 @@ public class Player extends Actor {
         setImage("imagens/jogadores/Jogador4/Jogador_baixo_1.png" );
     }
 
+    //Getters && Setters
+    public int getVida() {
+        return vida;
+    }
+
+    public int getVelocidade() {
+        return velocidade;
+    }
+
+    public int getEstamina() {
+        return estamina;
+    }
+
+    public int getPontos() {
+        return pontos;
+    }
+
     //Metodos
     public void act() {
         movimentar();
         coletarMoedas();
 
-        if (isDano == true){
-            tempoDano --;
-            if (tempoDano ==0)
+        if (sofrendoDano) {
+            tempoDano--;
+            if (tempoDano <= 0) {
+                sofrendoDano = false;
+                tempoDano = 50;
+            }
         }
     }
 
@@ -100,15 +120,16 @@ public class Player extends Actor {
         }
     }
 
-    public void sofreDano(int dano) {
+    public void sofrerDano(int dano) {
 
-        if (this.vida >= dano && !isDano) {
-            this.vida = this.vida - dano; // ou: this.vida -= dano;
-        } else {
-            this.vida = 0;
+        if (!sofrendoDano){
+            if (vida >= dano){
+                vida -= dano;
+                sofrendoDano = true;
+            }
+            if (vida == 0)
+                Greenfoot.stop();
         }
-        isDano = true;
-        System.out.println("Vidas: " + this.vida);
     }
 
 }

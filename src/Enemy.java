@@ -13,12 +13,14 @@ public class Enemy extends Actor {
         definirDirecaoInicial();
     }
 
-    public Enemy(int dano, int velocidade, String imagem) {
+    public Enemy(int dano, int velocidade) {
         this.dano = dano;
         this.velocidade = velocidade;
         definirDirecaoInicial();
-        setImage(imagem);
     }
+
+    //Getters && Setters
+
 
     public void act() {
         movimentar();
@@ -26,12 +28,7 @@ public class Enemy extends Actor {
     }
 
     public void movimentar() {
-        setLocation(getX() + (velocidade * direcao), getY());
-
-        // Inverte a direção ao encostar nos limites da tela
-        if (getX() <= 10 || getX() >= 1190) {
-            direcao = direcao * -1;
-        }
+        //Esse método é implementado nas classes filhas
     }
 
     public void definirDirecaoInicial() {
@@ -47,7 +44,7 @@ public class Enemy extends Actor {
 
         if(isTouching(Player.class)){
             Player playerFind = (Player) getOneIntersectingObject(Player.class);
-            playerFind.sofreDano(this.dano);
+            playerFind.sofrerDano(this.dano);
         }
     }
 }

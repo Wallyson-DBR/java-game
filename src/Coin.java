@@ -9,16 +9,14 @@ public class Coin extends Actor {
     //Atributos
     public int valor;
     public String imagem;
-    public int quantidade;
     public int tempo;
 
     //Construtores
     public Coin(){}
 
-    public Coin(int valor, int quantidade, int tempo) {
+    public Coin(int valor, int tempo) {
         this.valor = valor;
         setImage("imagens/moedas/coin_java.png");
-        this.quantidade = quantidade;
         this.tempo = tempo;
     }
 
